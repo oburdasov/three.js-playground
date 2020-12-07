@@ -7,6 +7,7 @@ import {
   Vector2,
   WebGLRenderer,
 } from 'three';
+import { VRButton } from 'three/examples/jsm/webxr/VRButton.js';
 
 const scene = new Scene();
 const camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -17,6 +18,8 @@ const renderer = new WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setClearColor('#e5e5e5');
 document.body.appendChild(renderer.domElement);
+document.body.appendChild( VRButton.createButton( renderer ) );
+renderer.xr.enabled = true;
 
 // Cube
 const geometry = new BoxGeometry();
@@ -40,16 +43,15 @@ fillCubes();
 
 // Update
 let isContracting = true;
-function animate() {
-  requestAnimationFrame(animate);
+renderer.setAnimationLoop( function () {
   scene.children.forEach(cube => {
     isContracting ?
       contract(cube) :
       expand(cube);
   })
-  renderer.render(scene, camera);
-}
-animate();
+
+	renderer.render( scene, camera );
+});
 
 function contract(cube) {
   cube.position.x = cube.position.x / 1.01;
