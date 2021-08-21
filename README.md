@@ -1,1 +1,1 @@
-# three.js-playground
+https://oburdasov.github.io/three.js-playground/
